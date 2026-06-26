@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vouch widget test page</title>
+  <style>body{font-family:system-ui,sans-serif;max-width:640px;margin:60px auto;padding:0 20px;color:#0f172a}</style>
+</head>
+<body>
+  <h1>Vouch widget test</h1>
+  <p>This is a plain HTML page. The Vouch widget below loads from your local app,
+     fetches active campaigns + events for the site key, and shows popups.</p>
+  <p>Replace <code>vch_your_public_key</code> with a real site key from your dashboard,
+     then add some events (manual entries or <code>POST /api/events</code>).</p>
+
+  <!-- Vouch widget -->
+  <script src="http://localhost:3000/widget.js" data-site-key="vch_your_public_key"></script>
+</body>
+</html>

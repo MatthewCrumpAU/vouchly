@@ -1,0 +1,48 @@
+========================================
+  VOUCH — START HERE
+========================================
+
+Hi! This folder is your Vouch app. Here is exactly what to do,
+in order. Take it one step at a time. It's okay to go slow.
+
+----------------------------------------
+STEP 1 — Unzip (you may have already done this)
+----------------------------------------
+If you see this file inside a folder of other files, you're done.
+If everything is still squished in a .zip "suitcase":
+  - Mac:     double-click the .zip
+  - Windows: right-click the .zip -> Extract All -> Extract
+
+----------------------------------------
+STEP 2 — Open the instruction sheet
+----------------------------------------
+Find the file named:  DEPLOY.md
+Open it to read:
+  - Mac:     right-click -> Open With -> TextEdit
+  - Windows: right-click -> Open With -> Notepad
+
+----------------------------------------
+STEP 3 — Follow DEPLOY.md from top to bottom
+----------------------------------------
+It walks you through the 3 helpers that put your app online:
+  1. GitHub    = a backpack that holds these files
+  2. Supabase  = the notebook that remembers things (the database)
+  3. Vercel    = the house that gives your app a web address
+  ...and Stripe (optional) = the cash register for paid plans.
+
+Do the steps in order. Don't skip the part where you run the
+SQL file "0005_owner_lifetime.sql" BY ITSELF.
+
+----------------------------------------
+GOOD TO KNOW
+----------------------------------------
+* These files are like LEGO instructions + pieces, not a game you
+  double-click. They become a real website after Steps in DEPLOY.md.
+* Before deploying, on your computer run (in this folder):
+      npm install
+      npm run dev
+  That tests it locally and catches small problems early.
+* To become the unlimited "owner" account: sign up on your live
+  site first, then run supabase/make_me_owner.sql with your email.
+
+That's it. Open DEPLOY.md and start at the top. You've got this!
