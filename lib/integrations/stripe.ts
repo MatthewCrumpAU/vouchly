@@ -9,17 +9,31 @@ export const stripe: IntegrationProvider = {
   async parseWebhook(payload: any): Promise<Partial<VouchEvent>[]> {
     const type = payload?.type;
     const obj = payload?.data?.object ?? {};
+
     if (type === "checkout.session.completed" || type === "payment_intent.succeeded") {
-      const details = obj.customer_details ?? {};
+      const details = obj.customer_details ?? obj.billing_details ?? {};
       return [{
         event_type: "recent_purchase",
-        name: (details.name || obj.billing_details?.name || "Someone").split(" ")[0],
+        name: (details.name || "Someone").split(" ")[0],
         city: details.address?.city ?? null,
         country: details.address?.country ?? null,
         product: obj.description || "a purchase",
-        value: (obj.amount_total ?? obj.amount ?? 0) / 100,
+        value: (obj.amount_total ?? obj.amount_received ?? obj.amount ?? 0) / 100,
       }];
     }
+
+    if (type === "charge.succeeded") {
+      const details = obj.billing_details ?? {};
+      return [{
+        event_type: "recent_purchase",
+        name: (details.name || "Someone").split(" ")[0],
+        city: details.address?.city ?? null,
+        country: details.address?.country ?? null,
+        product: obj.description || "a purchase",
+        value: (obj.amount_captured ?? obj.amount ?? 0) / 100,
+      }];
+    }
+
     return [];
   },
 };
