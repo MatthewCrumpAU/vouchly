@@ -148,13 +148,13 @@ export function CampaignEditor({ campaign }: { campaign: Campaign }) {
             </Field>
             <div className="grid grid-cols-2 gap-3">
               <Field label="Font">
-                <select className="input" value={font} onChange={(e) => setFont(e.target.value)}>
+                <select className="input" value={font} onChange={(e) => setFont(e.target.value as any)}>
                   <option value="system">System</option><option value="serif">Serif</option>
                   <option value="mono">Mono</option><option value="rounded">Rounded</option>
                 </select>
               </Field>
               <Field label="Animation">
-                <select className="input" value={animation} onChange={(e) => setAnimation(e.target.value)}>
+                <select className="input" value={animation} onChange={(e) => setAnimation(e.target.value as any)}>
                   <option value="slide">Slide</option><option value="fade">Fade</option><option value="bounce">Bounce</option>
                 </select>
               </Field>
