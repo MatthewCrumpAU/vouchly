@@ -174,7 +174,7 @@
           '<div class="ic" style="background:' + (d.accent || "#4f46e5") + '"><svg viewBox="0 0 24 24">' + icon(c.notification_type) + '</svg></div>' +
           '<div class="tx"><div class="msg">' + esc(notice.message) + '</div>' +
           (notice.rating ? '<div class="st">' + stars(notice.rating) + '</div>' : '') +
-          '<div class="mt">' + esc(notice.ago) + (c.branding ? ' <span class="br">· via ' + esc(BRAND) + '</span>' : '') + '</div></div>' +
+          '<div class="mt">' + esc(notice.ago) + (c.branding ? ' <span class="br">· Powered by ' + esc(BRAND) + '</span>' : '') + '</div></div>' +
           (d.closeButton === false ? '' : '<button class="cl" aria-label="Close">&times;</button>');
 
         var cls = box.querySelector(".cl");
