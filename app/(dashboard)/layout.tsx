@@ -1,54 +1,35 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+import { redirect } from "next/navigation";
+import { createClient } from "@/lib/supabase/server";
+import { Sidebar } from "@/components/dashboard/sidebar";
+import { PLANS } from "@/lib/plans";
 
-:root {
-  /* premium-minimal: soft off-white canvas, purple-tinted ink */
-  --background: 247 247 251;
-  --foreground: 27 23 38;
-  --brand-grad: linear-gradient(135deg, #7c3aed, #4f46e5);
-}
-.dark {
-  --background: 12 10 20;
-  --foreground: 226 226 235;
-}
+export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
+  const supabase = createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) redirect("/login");
 
-html { scroll-behavior: smooth; }
-body {
-  background: rgb(var(--background));
-  color: rgb(var(--foreground));
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-}
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("full_name, email, plan, is_admin")
+    .eq("id", user.id)
+    .single();
 
-@layer components {
-  .card {
-    @apply rounded-2xl border bg-white p-5;
-    border-color: #ecebf2;
-    box-shadow: 0 1px 2px rgba(16,24,40,.04), 0 12px 32px -16px rgba(91,60,190,.16);
-  }
-  .dark .card { @apply border-slate-800 bg-slate-900; box-shadow: none; }
+  const planLabel = PLANS[(profile?.plan ?? "free") as keyof typeof PLANS].label;
 
-  .input {
-    @apply w-full rounded-xl border bg-white px-3.5 py-2.5 text-sm text-slate-900
-           placeholder:text-slate-400 outline-none transition
-           dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100;
-    border-color: #e5e3ef;
-  }
-  .input:focus { border-color: #7c3aed; box-shadow: 0 0 0 3px rgba(124,58,237,.15); }
-
-  .label { @apply mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300; }
-
-  /* small uppercase section label used above numbers/headings */
-  .eyebrow {
-    @apply text-[11px] font-semibold uppercase text-slate-500;
-    letter-spacing: .12em;
-  }
-
-  /* gradient brand accents */
-  .brand-grad { background: var(--brand-grad); }
-  .brand-grad-text {
-    background: var(--brand-grad);
-    -webkit-background-clip: text; background-clip: text; color: transparent;
-  }
+  return (
+    <div className="flex min-h-screen bg-[#f7f7fb]">
+      <Sidebar isAdmin={!!profile?.is_admin} plan={(profile?.plan ?? "free") as any} />
+      <div className="flex min-w-0 flex-1 flex-col">
+        <header className="flex items-center justify-between border-b border-slate-200 bg-white px-6 py-3">
+          <div className="text-sm text-slate-500">
+            {profile?.full_name || profile?.email}
+          </div>
+          <span className="rounded-full bg-brand-50 px-3 py-1 text-xs font-medium text-brand-700">
+            {planLabel} plan
+          </span>
+        </header>
+        <main className="min-w-0 flex-1 p-6">{children}</main>
+      </div>
+    </div>
+  );
 }
